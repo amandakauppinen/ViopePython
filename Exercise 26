@@ -1,0 +1,117 @@
+**Prompt**
+
+The second exercise in this chapter continues with random selection. In this exercise the objective is to develop a
+game called nuke-foot-cockroach, which is pretty similar to the more popular variant, paper-rock-scissors. The rules
+are simple: both players select either nuke, foot or cockroach, and the winner is determined in the following way:
+Foot beats cockroach, nuke beats foot and cockroach beats nuke. If both the player and the AI select the same, it's a
+tie, except if both choose nuke, then both lose.
+
+
+Implement the game so that the other player is computer controlled, and chooses randomly either foot(number 1),
+cockroach(number 3) or nuke(number 2). Also implement a feature which keeps the score, calculating both rounds
+the player won, and ties. If the player wins, print "You WIN!", if they loose "You LOSE!". If the round was a tie,
+either "It is a tie!" or "Both LOSE!", depending on if the tie was caused by a nuke or not. If the player selects
+"quit", the game ends and the final score is given. When the game works correctly, it prints the following:
+
+>>> 
+Foot, Nuke or Cockroach? (Quit ends): Nuke
+You chose: Nuke
+Computer chose: Foot
+You WIN!
+Foot, Nuke or Cockroach? (Quit ends): Nuke
+You chose: Nuke
+Computer chose: Nuke
+Both LOSE!
+Foot, Nuke or Cockroach? (Quit ends): Cockroach
+You chose: Cockroach
+Computer chose: Nuke
+You WIN!
+Foot, Nuke or Cockroach? (Quit ends): Foot
+You chose: Foot
+Computer chose: Nuke
+You LOSE!
+Foot, Nuke or Cockroach? (Quit ends): Spaceshuttle
+Incorrect selection.
+Foot, Nuke or Cockroach? (Quit ends): Foot
+You chose: Foot
+Computer chose: Nuke
+You LOSE!
+Foot, Nuke or Cockroach? (Quit ends): Quit
+You played 5 rounds, and won 2 rounds, playing tie in 0 rounds.
+>>>  
+	
+/div>
+
+**Solution**
+
+# -*- coding: cp1252 -*-
+
+import random
+
+def playerChoice(playerChoice) :
+	if playerChoice == "Foot" :
+		playerChoice = 1
+		print("You chose: Foot")
+	elif playerChoice == "Nuke" :
+		playerChoice = 2
+		print("You chose: Nuke")
+	elif playerChoice == "Cockroach" :
+		playerChoice = 3
+		print("You chose: Cockroach")
+	elif playerChoice == "Quit" :
+		return playerChoice
+	else :
+		playerChoice = "Incorrect"
+	return playerChoice
+
+def cpuChoice(cpuChoice):
+	cpuChoice = random.randint(1,4)
+	return cpuChoice
+
+def cpuDecision(cpuDecision):
+	if cpuDecision == 1:
+		print("Computer chose: Foot")
+	elif cpuDecision == 2:
+		print("Computer chose: Nuke")
+	else :
+		print("Computer chose: Cockroach")
+	return cpuDecision
+
+playerScore = 0
+roundCount = 0
+tieCount = 0
+
+while True :
+	
+	playerInput = input("Foot, Nuke or Cockroach? (Quit ends): ")
+	newPlayerInput = playerChoice(playerInput)
+	newCpuChoice = cpuChoice(cpuChoice)
+	
+	if (newPlayerInput == 1 and newCpuChoice == 1) or (newPlayerInput == 3 and newCpuChoice == 3) :
+		cpuDecision(newCpuChoice)
+		print("It is a tie!")
+		tieCount = tieCount + 1
+		roundCount = roundCount + 1
+	elif (newPlayerInput == 1 and newCpuChoice == 3) or (newPlayerInput == 2 and newCpuChoice == 1) or (newPlayerInput == 3 and newCpuChoice == 2):
+		cpuDecision(newCpuChoice)
+		print("You WIN!")
+		playerScore = playerScore + 1
+		roundCount = roundCount + 1
+	elif (newPlayerInput == 3 and newCpuChoice == 1) or (newPlayerInput == 1 and newCpuChoice == 2) or (newPlayerInput == 2 and newCpuChoice == 3):
+		cpuDecision(newCpuChoice)
+		print("You LOSE!")
+		roundCount = roundCount + 1
+	elif (newPlayerInput == 2 and newCpuChoice == 2):
+		cpuDecision(newCpuChoice)
+		print("Both LOSE!")
+		tieCount = tieCount + 1
+		roundCount = roundCount + 1
+	elif newPlayerInput == "Incorrect" :
+		print("Incorrect selection.")
+	else :
+		print("You played",roundCount,"rounds, and won",playerScore,"rounds, playing tie in",tieCount,"rounds.")
+		playerScore = 0
+		roundCount = 0
+		tieCount = 0
+		break
+	

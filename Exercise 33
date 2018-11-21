@@ -1,0 +1,107 @@
+**Prompt**
+
+The third exercise in the chapter continues with the calculator exercises done earlier. This time the idea is to
+finally take out the annoying problems with numbers, input validity and the stability problems caused by type
+conversion funvtion.
+
+Make the following changes to the calculator: Every time the user gives numbers to the program, the system asks
+for the numbers with the prompt "Give a number: " and continues until a valid number is given. If the number is
+not correct, the system gives an error message "This input is invalid.". If the calculator works correctly, it
+prints out the following:
+
+>>> 
+Calculator
+Give a number: hah, NEVER
+This input is invalid.
+Give a number: What?
+This input is invalid.
+Give a number: 100
+Give a number: Just kidding
+This input is invalid.
+Give a number: 50
+(1) +
+(2) -
+(3) *
+(4) /
+(5)sin(number1/number2)
+(6)cos(number1/number2)
+(7)Change numbers
+(8)Quit
+Current numbers: 100 50
+Please select something (1-6): 2
+The result is: 50
+(1) +
+(2) -
+(3) *
+(4) /
+(5)sin(number1/number2)
+(6)cos(number1/number2)
+(7)Change numbers
+(8)Quit
+Current numbers: 100 50
+Please select something (1-6): 8
+Thank you!
+>>> 
+
+The easiest way of implementing this feature is probably to define a separate function to call when asking numbers.
+In this function, an iteration keeps asking a number as long as the user decides to joke around. If the input is valid,
+iteration terminates with break and the function returns an acceptable value
+
+**Solution**
+
+# -*- coding: cp1252 -*-
+
+import math
+
+def check() :
+	while True:
+		try:
+			numberInput = int(input("Give a number: "))
+			return numberInput
+		except Exception:
+			print("This input is invalid.")
+	
+
+print("Calculator")
+
+number1 = check()
+number2 = check()
+
+number1 = int(number1)
+number2 = int(number2)
+
+while True :
+	
+	print(" (1) + \n (2) - \n (3) * \n (4) / \n (5) sin(number1/number2) \n (6) cos(number1/number2) \n (7) Change numbers \n (8) Quit")
+	print("Current numbers: ",number1,number2)
+	
+	choice = input("Please select something (1-6): ")
+	
+	if not check :
+		print("The input is invalid.")
+	
+	if choice == "1" :
+		print("The result is: ",number1 + number2)
+	
+	elif choice == "2" :
+		print("The result is: ",number1 - number2)
+	
+	elif choice == "3" :
+		print("The result is: ",number1 * number2)
+		
+	elif choice == "4" :
+		print("The result is: ",number1 / number2)
+	
+	elif choice == "5" :
+		print("The result is: ",math.sin(number1 / number2))
+	
+	elif choice == "6" :
+		print("The result is: ",math.cos(number1 / number2))
+	
+	elif choice == "7" :
+		number1 = int(input("Give the first number: "))
+		number2 = int(input("Give the second number: "))
+		
+	else :
+		print("Thank you!")
+		break
